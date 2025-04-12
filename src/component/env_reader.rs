@@ -57,10 +57,25 @@ impl EnvReader {
             Err(_) => 100,
         };
 
+        let workers = match env::var("SERVER_WORKERS") {
+            Ok(d) => {
+                let res: i64 = d.trim().parse().expect("SERVER_WORKERS must be a number");
+                res
+            }
+            Err(_) => -1,
+        };
+
         let application_collection = match env::var("APPLICATIONS_COLLECTION") {
             Ok(e) => e,
             Err(_) => {
                 panic!("APPLICATIONS_COLLECTION has not been specified")
+            }
+        };
+
+        let server_context = match env::var("SERVER_CONTEXT") {
+            Ok(e) => e,
+            Err(_) => {
+                panic!("SERVER_CONTEXT has not been specified")
             }
         };
 
@@ -75,7 +90,9 @@ impl EnvReader {
             &database_name,
             client,
             max_fetch_limit,
+            workers,
             services,
+            &server_context,
         )
     }
 }

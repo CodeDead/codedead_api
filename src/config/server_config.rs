@@ -8,7 +8,9 @@ pub struct ServerConfig {
     pub database_name: String,
     pub client: Client,
     pub max_fetch_limit: i64,
+    pub workers: i64,
     pub services: Services,
+    pub server_context: String,
 }
 
 impl ServerConfig {
@@ -21,6 +23,7 @@ impl ServerConfig {
     /// * `database_name` - The name of the database
     /// * `client` - The MongoDB client
     /// * `max_fetch_limit` - The maximum fetch limit
+    /// * `workers` - The number of workers
     /// * `services` - The services to use
     ///
     /// # Returns
@@ -32,7 +35,9 @@ impl ServerConfig {
         database_name: &str,
         client: Client,
         max_fetch_limit: i64,
+        workers: i64,
         services: Services,
+        server_context: &str,
     ) -> Self {
         ServerConfig {
             host: host.to_string(),
@@ -40,7 +45,9 @@ impl ServerConfig {
             database_name: database_name.to_string(),
             client,
             max_fetch_limit,
+            workers,
             services,
+            server_context: server_context.to_string(),
         }
     }
 }

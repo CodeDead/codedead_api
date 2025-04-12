@@ -23,10 +23,10 @@ async fn main() -> std::io::Result<()> {
 
     let host = server_config.host.clone();
     let port = server_config.port;
+    let workers = server_config.workers;
 
     let mut server = HttpServer::new(move || {
         let logger = Logger::default();
-
         App::new()
             .wrap(logger)
             .app_data(actix_web::web::Data::new(server_config.clone()))
@@ -35,6 +35,10 @@ async fn main() -> std::io::Result<()> {
     })
     .bind((host, port))
     .expect("Failed to bind server");
+
+    if workers > 0 {
+        server = server.workers(usize::try_from(workers).expect("Invalid number of workers"));
+    }
 
     server.run().await
 }

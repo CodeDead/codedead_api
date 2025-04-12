@@ -63,12 +63,12 @@ impl ApplicationService {
     /// Returns an error if the MongoDB query fails
     pub async fn get_all_sorted_by_id(
         &self,
-        limit: i64,
+        limit: Option<i64>,
         db: &Database,
     ) -> Result<Vec<Application>, mongodb::error::Error> {
         info!(
             "Fetching all applications sorted by ID with limit: {}",
-            limit
+            limit.unwrap_or(0)
         );
         self.application_repository
             .get_all_sorted_by_id(limit, db)
@@ -92,12 +92,13 @@ impl ApplicationService {
     pub async fn get_all_with_id_greater_than(
         &self,
         id: &str,
-        limit: i64,
+        limit: Option<i64>,
         db: &Database,
     ) -> Result<Vec<Application>, mongodb::error::Error> {
         info!(
             "Fetching all applications with ID greater than: {} with limit: {}",
-            id, limit
+            id,
+            limit.unwrap_or(0)
         );
         self.application_repository
             .get_all_with_id_greater_than(id, limit, db)

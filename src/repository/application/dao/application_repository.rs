@@ -18,7 +18,7 @@ impl ApplicationRepository {
     /// # Returns
     ///
     /// A new instance of ApplicationRepository.
-    pub(crate) fn new(collection: String) -> Self {
+    pub fn new(collection: String) -> Self {
         ApplicationRepository { collection }
     }
 
@@ -36,7 +36,7 @@ impl ApplicationRepository {
     /// # Errors
     ///
     /// Returns an error if the MongoDB query fails
-    pub(crate) async fn get_by_id(
+    pub async fn get_by_id(
         &self,
         id: &str,
         db: &Database,
@@ -63,12 +63,14 @@ impl ApplicationRepository {
     /// # Errors
     ///
     /// Returns an error if the MongoDB query fails
-    pub(crate) async fn get_all_sorted_by_id(
+    pub async fn get_all_sorted_by_id(
         &self,
-        limit: i64,
+        limit: Option<i64>,
         db: &Database,
     ) -> Result<Vec<Application>, mongodb::error::Error> {
         let sort = doc! {"_id": 1};
+        let limit = limit.unwrap_or(0);
+
         let cursor = match db
             .collection::<Application>(&self.collection)
             .find(doc! {})
@@ -97,17 +99,21 @@ impl ApplicationRepository {
     /// # Errors
     ///
     /// Returns an error if the MongoDB query fails
-    pub(crate) async fn get_all_with_id_greater_than(
+    pub async fn get_all_with_id_greater_than(
         &self,
         id: &str,
-        limit: i64,
+        limit: Option<i64>,
         db: &Database,
     ) -> Result<Vec<Application>, mongodb::error::Error> {
         let filter = doc! { "_id": { "$gt": id } };
+        let sort = doc! {"_id": 1};
+        let limit = limit.unwrap_or(0);
+
         let cursor = match db
             .collection::<Application>(&self.collection)
             .find(filter)
             .limit(limit)
+            .sort(sort)
             .await
         {
             Ok(d) => d,

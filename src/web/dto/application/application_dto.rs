@@ -94,10 +94,7 @@ impl From<Architecture> for ArchitectureDto {
 
 impl From<Release> for ReleaseDto {
     fn from(release: Release) -> Self {
-        let release_type = match release.release_type {
-            Some(release_type) => Some(ReleaseTypeDto::from(release_type)),
-            None => None,
-        };
+        let release_type = release.release_type.map(ReleaseTypeDto::from);
 
         ReleaseDto {
             name: release.name,
