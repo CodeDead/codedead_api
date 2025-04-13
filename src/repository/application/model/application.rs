@@ -31,6 +31,7 @@ pub struct Architecture {
 pub struct Release {
     pub name: Option<String>,
     pub description: Option<String>,
+    pub portable: Option<bool>,
     #[serde(rename = "releaseDate")]
     pub release_date: Option<String>,
     #[serde(rename = "releaseType")]
@@ -39,7 +40,7 @@ pub struct Release {
     #[serde(rename = "downloadUrl")]
     pub download_url: String,
     #[serde(rename = "infoUrl")]
-    pub info_url: String,
+    pub info_url: Option<String>,
     pub checksum: Option<String>,
 }
 

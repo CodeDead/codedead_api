@@ -2,8 +2,9 @@ use crate::repository::application::model::application::{
     Application, ApplicationPlatform, Architecture, Release, ReleaseType,
 };
 use serde::{Deserialize, Serialize};
+use utoipa::ToSchema;
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, ToSchema)]
 pub struct ApplicationDto {
     pub id: String,
     pub name: String,
@@ -11,24 +12,25 @@ pub struct ApplicationDto {
     pub platforms: Option<Vec<ApplicationPlatformDto>>,
 }
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, ToSchema)]
 pub struct ApplicationPlatformDto {
     #[serde(rename = "platformName")]
     pub platform_name: String,
     pub architectures: Option<Vec<ArchitectureDto>>,
 }
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, ToSchema)]
 pub struct ArchitectureDto {
     pub name: String,
     pub url: String,
     pub releases: Option<Vec<ReleaseDto>>,
 }
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, ToSchema)]
 pub struct ReleaseDto {
     pub name: Option<String>,
     pub description: Option<String>,
+    pub portable: Option<bool>,
     #[serde(rename = "releaseDate")]
     pub release_date: Option<String>,
     #[serde(rename = "releaseType")]
@@ -37,11 +39,11 @@ pub struct ReleaseDto {
     #[serde(rename = "downloadUrl")]
     pub download_url: String,
     #[serde(rename = "infoUrl")]
-    pub info_url: String,
+    pub info_url: Option<String>,
     pub checksum: Option<String>,
 }
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, ToSchema)]
 pub enum ReleaseTypeDto {
     Major,
     Minor,
@@ -99,6 +101,7 @@ impl From<Release> for ReleaseDto {
         ReleaseDto {
             name: release.name,
             description: release.description,
+            portable: release.portable,
             release_date: release.release_date,
             release_type,
             semver: release.semver,

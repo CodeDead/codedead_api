@@ -5,9 +5,38 @@ use crate::web::dto::application::applications_query::ApplicationsQuery;
 use actix_web::{HttpResponse, get, web};
 use log::error;
 
+/// # Summary
+///
+/// Fetches an application by its ID.
+///
+/// # Arguments
+///
+/// * `id` - The ID of the application to fetch.
+///
+/// # Returns
+///
+/// * `HttpResponse` - The HTTP response containing the application data or an error message.
+///
+/// # Errors
+///
+/// * Returns an HTTP 404 Not Found if the application is not found.
+/// * Returns an HTTP 500 Internal Server Error if there is an error fetching the application.
+#[utoipa::path(
+    get,
+    path = "/api/v1/applications/{id}",
+    tag = "Applications",
+    params(
+        ("id" = String, Path, description = "The ID of the application to fetch", nullable = false),
+    ),
+    responses(
+            (status = 200, description = "HTTP OK", body = ApplicationDto),
+            (status = 404, description = "HTTP Not Found"),
+            (status = 500, description = "HTTP Internal Server Error", body = InternalServerError),
+    ),
+)]
 #[get("/{id}")]
-pub async fn find_by_id(path: web::Path<String>, pool: web::Data<ServerConfig>) -> HttpResponse {
-    let id = path.into_inner();
+pub async fn find_by_id(id: web::Path<String>, pool: web::Data<ServerConfig>) -> HttpResponse {
+    let id = id.into_inner();
 
     let res = match pool
         .services
@@ -33,6 +62,36 @@ pub async fn find_by_id(path: web::Path<String>, pool: web::Data<ServerConfig>) 
     HttpResponse::Ok().json(dto)
 }
 
+/// # Summary
+///
+/// Fetches all applications with pagination support.
+///
+/// # Arguments
+///
+/// * `query` - The query parameters for pagination.
+///
+/// # Returns
+///
+/// * `HttpResponse` - The HTTP response containing a list of applications or an error message.
+///
+/// # Errors
+///
+/// * Returns an HTTP 404 Not Found if no applications are found.
+/// * Returns an HTTP 500 Internal Server Error if there is an error fetching the applications.
+#[utoipa::path(
+    get,
+    path = "/api/v1/applications/",
+    tag = "Applications",
+    params(
+        ("page" = Option<String>, Query, description = "The page", nullable = true),
+        ("limit" = Option<i64>, Query, description = "The limit of the amount of entities to retrieve", nullable = true),
+    ),
+    responses(
+            (status = 200, description = "HTTP OK", body = Vec<ApplicationDto>),
+            (status = 404, description = "HTTP Not Found"),
+            (status = 500, description = "HTTP Internal Server Error", body = InternalServerError),
+    ),
+)]
 #[get("/")]
 pub async fn find_all(
     query: web::Query<ApplicationsQuery>,

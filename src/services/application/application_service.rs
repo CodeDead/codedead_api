@@ -43,7 +43,7 @@ impl ApplicationService {
         id: &str,
         db: &Database,
     ) -> Result<Option<Application>, mongodb::error::Error> {
-        info!("Fetching application with ID: {}", id);
+        info!("Retrieving application with ID: {}", id);
         self.application_repository.get_by_id(id, db).await
     }
 
@@ -67,7 +67,7 @@ impl ApplicationService {
         db: &Database,
     ) -> Result<Vec<Application>, mongodb::error::Error> {
         info!(
-            "Fetching all applications sorted by ID with limit: {}",
+            "Retrieving all applications sorted by ID with limit: {}",
             limit.unwrap_or(0)
         );
         self.application_repository
