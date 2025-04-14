@@ -65,10 +65,10 @@ impl EnvReader {
             Err(_) => -1,
         };
 
-        let application_collection = match env::var("APPLICATIONS_COLLECTION") {
+        let application_collection = match env::var("MONGODB_APPLICATIONS_COLLECTION") {
             Ok(e) => e,
             Err(_) => {
-                panic!("APPLICATIONS_COLLECTION has not been specified")
+                panic!("MONGODB_APPLICATIONS_COLLECTION has not been specified")
             }
         };
 
