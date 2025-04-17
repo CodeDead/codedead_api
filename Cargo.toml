@@ -6,6 +6,7 @@ version = "0.1.0"
 edition = "2024"
 rust-version = "1.86.0"
 authors = ["CodeDead <admin@codedead.com>"]
+license = "GPL-3.0-only"
 
 [dependencies]
 actix-cors = "0.7.1"

@@ -6,6 +6,7 @@ use actix_web::middleware::Logger;
 use actix_web::{App, HttpServer};
 use dotenvy::dotenv;
 use env_logger::Env;
+use log::info;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
@@ -27,6 +28,11 @@ async fn main() -> std::io::Result<()> {
     let host = server_config.host.clone();
     let port = server_config.port;
     let workers = server_config.workers;
+
+    info!(
+        "Starting server on {}:{} with context {}",
+        host, port, server_config.server_context
+    );
 
     let openapi = ApiDoc::openapi();
     let mut server = HttpServer::new(move || {
