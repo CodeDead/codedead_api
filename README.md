@@ -27,12 +27,6 @@ Actix-web.
 
 To run the API, you need to have Rust installed. You can install Rust using [rustup](https://rustup.rs/).
 
-### Install dependencies
-
-```bash
-cargo install
-```
-
 ### Run the API
 
 ```bash
