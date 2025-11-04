@@ -4,7 +4,7 @@ description = "CodeDead API"
 readme = "README.md"
 version = "0.1.0"
 edition = "2024"
-rust-version = "1.90.0"
+rust-version = "1.91.0"
 authors = ["CodeDead <admin@codedead.com>"]
 license = "GPL-3.0-only"
 
