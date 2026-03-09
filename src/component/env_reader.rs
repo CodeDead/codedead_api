@@ -1,7 +1,9 @@
 use crate::config::server_config::ServerConfig;
 use crate::repository::application::dao::application_repository::ApplicationRepository;
+use crate::repository::v2::dao::version_repository::VersionRepository;
 use crate::services::Services;
 use crate::services::application::application_service::ApplicationService;
+use crate::services::version::version_service::VersionService;
 use log::info;
 use mongodb::Client;
 use std::env;
@@ -72,6 +74,13 @@ impl EnvReader {
             }
         };
 
+        let version_collection = match env::var("MONGODB_VERSION_COLLECTION") {
+            Ok(e) => e,
+            Err(_) => {
+                panic!("MONGODB_VERSION_COLLECTION has not been specified")
+            }
+        };
+
         let server_context = match env::var("SERVER_CONTEXT") {
             Ok(e) => e,
             Err(_) => {
@@ -82,7 +91,10 @@ impl EnvReader {
         let application_repository = ApplicationRepository::new(application_collection);
         let application_service = ApplicationService::new(application_repository);
 
-        let services = Services::new(application_service);
+        let version_repository = VersionRepository::new(version_collection);
+        let version_service = VersionService::new(version_repository);
+
+        let services = Services::new(application_service, version_service);
 
         ServerConfig::new(
             &addr,

@@ -1,5 +1,6 @@
 pub(crate) mod actuator_controller;
 pub(crate) mod application_controller;
+pub(crate) mod version_controller;
 
 use actix_web::web;
 
@@ -20,6 +21,11 @@ impl Controller {
                     web::scope("/applications")
                         .service(application_controller::find_by_id)
                         .service(application_controller::find_all),
+                )
+                .service(
+                    web::scope("/version")
+                        .service(version_controller::find_version_by_id)
+                        .service(version_controller::find_all_versions),
                 )
                 .service(web::scope("/actuators").service(actuator_controller::health)),
         );

@@ -6,6 +6,8 @@ use utoipa::OpenApi;
         crate::web::controller::actuator_controller::health,
         crate::web::controller::application_controller::find_all,
         crate::web::controller::application_controller::find_by_id,
+        crate::web::controller::version_controller::find_all_versions,
+        crate::web::controller::version_controller::find_version_by_id,
     ),
     components(schemas(
         crate::errors::internal_server_error::InternalServerError,
@@ -14,6 +16,8 @@ use utoipa::OpenApi;
         crate::web::dto::application::application_dto::ArchitectureDto,
         crate::web::dto::application::application_dto::ReleaseDto,
         crate::web::dto::application::application_dto::ReleaseTypeDto,
+        crate::web::dto::version::version_dto::VersionDto,
+        crate::web::dto::version::version_dto::PlatformDto,
     ))
 )]
 pub struct ApiDoc;

@@ -19,6 +19,7 @@ Actix-web.
 | `MONGODB_CONNECTION_STRING`       | `String` | `true`   | N/A       | `mongodb://localhost:27017` | The MongoDB connection string                                        |
 | `MONGODB_DATABASE_NAME`           | `String` | `true`   | N/A       | `codedead_staging`          | The MongoDB database name                                            |
 | `MONGODB_APPLICATIONS_COLLECTION` | `String` | `true`   | N/A       | `applications`              | The MongoDB application collection                                   |
+| `MONGODB_VERSION_COLLECTION`      | `String` | `true`   | N/A       | `versions`                  | The MongoDB version collection                                       |
 | `MAX_FETCH_LIMIT`                 | `i64`    | `false`  | `100`     | `100`                       | The maximum amount of entries that can be retrieved on a single page |
 | `RUST_LOG`                        | `String` | `false`  | `info`    | `info`                      | The RUST log level                                                   |
 | `RUST_BACKTRACE`                  | `bool`   | `false`  | `1`       | `1`                         | Allow an acquisition of a backtrace at runtime programmatically      |
